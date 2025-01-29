@@ -7,6 +7,8 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	cmdApi "github.com/suryatresna/srg-radar-project/cmd/api"
+	cmdWorker "github.com/suryatresna/srg-radar-project/cmd/worker"
 )
 
 // rootCmd represents the base command when called without any subcommands
@@ -34,6 +36,8 @@ func Execute() {
 }
 
 func init() {
+	rootCmd.AddCommand(cmdApi.ApiCmd)
+	rootCmd.AddCommand(cmdWorker.WorkerCmd)
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
