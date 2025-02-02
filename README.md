@@ -28,7 +28,7 @@ This application helps pharmaceutical companies identify potential manufacturers
 ## Installation
 ```bash
 # Clone the repository
-git clone https://github.com/suryatresna/srg-radar-project.git
+git clone https://github.com/noydhiet/mandrill-scrapper.git
 
 # Install dependencies
 go mod download
