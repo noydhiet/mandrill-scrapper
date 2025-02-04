@@ -1,6 +1,8 @@
 package storage
 
+import "context"
+
 type Storage interface {
-	Store(model string, data map[string]interface{}) error
-	StoreDB(sql string, data map[string]interface{}) error
+	Store(ctx context.Context, model string, data interface{}) error
+	Find(ctx context.Context, model string, filter interface{}, data interface{}) error
 }

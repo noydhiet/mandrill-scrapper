@@ -7,9 +7,18 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/gocolly/colly"
+	"github.com/noydhiet/mandrill-scrapper/internal/handler"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+
+	pkgStorage "github.com/noydhiet/mandrill-scrapper/internal/pkg/storage"
+	repoLawsuit "github.com/noydhiet/mandrill-scrapper/internal/repository/lawsuit"
+	repoManufacture "github.com/noydhiet/mandrill-scrapper/internal/repository/manufacture"
+	repoPatent "github.com/noydhiet/mandrill-scrapper/internal/repository/patent"
+	repoRecall "github.com/noydhiet/mandrill-scrapper/internal/repository/recall"
+	repoRegistration "github.com/noydhiet/mandrill-scrapper/internal/repository/registration"
 )
 
 // searchCmd represents the search command
@@ -39,11 +48,25 @@ func init() {
 }
 
 func runSearchAPI(cmd *cobra.Command, args []string) {
-	http.HandleFunc("/v1/search", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		log.Info().Msg("search endpoint called")
-		w.Write([]byte(`{"message":"search endpoint called"}`))
-	})
+	log.Info().Msg("worker initiated")
+	collector := colly.NewCollector()
+
+	mongoDsn := os.Getenv("MONGO_DSN")
+
+	storage, err := pkgStorage.NewStorageMongo(mongoDsn)
+	if err != nil {
+		log.Error().Err(err).Msg("failed to connect to database")
+		return
+	}
+	patentDb := repoPatent.NewRepository(storage)
+	manufactureDb := repoManufacture.NewRepository(storage)
+	lawsuitDb := repoLawsuit.NewRepository(storage)
+	registrationDb := repoRegistration.NewRepository(storage)
+	recallDb := repoRecall.NewRepository(storage)
+
+	hdl := handler.NewHandler(collector, patentDb, lawsuitDb, manufactureDb, recallDb, registrationDb)
+
+	http.HandleFunc("/v1/search", hdl.HandleGetPatentData)
 
 	log.Info().Msg("api server started at :8080")
 	http.ListenAndServe(":8080", nil)

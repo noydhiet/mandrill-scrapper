@@ -35,13 +35,28 @@ go mod download
 ```
 
 ## Usage
+
+Run the application in local environment:
 ```bash
 # Run the application
-go run main.go
-
-# Example API input
-API: Cetuximab
+go run main.go api
 ```
+
+Test the application:
+```bash
+curl http://localhost:8080/v1/search?query=paracetamol
+```
+
+Run Worker in local environment
+```bash
+go run main.go worker
+```
+
+Support scraping worker
+| Module | Frequency |
+| ------ | --------- |
+| Patent | Every day |
+
 
 ## Scraping Sources
 ### Patent Expiry

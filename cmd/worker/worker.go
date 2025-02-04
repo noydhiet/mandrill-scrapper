@@ -47,7 +47,10 @@ func init() {
 func runWorkerScraping(cmd *cobra.Command, args []string) {
 	log.Info().Msg("worker initiated")
 	collector := colly.NewCollector()
-	storage, err := pkgStorage.NewStorageDB("")
+
+	mongoDsn := os.Getenv("MONGO_DSN")
+
+	storage, err := pkgStorage.NewStorageMongo(mongoDsn)
 	if err != nil {
 		log.Error().Err(err).Msg("failed to connect to database")
 		return

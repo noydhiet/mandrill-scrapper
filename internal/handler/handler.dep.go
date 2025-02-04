@@ -1,7 +1,14 @@
 package handler
 
+import (
+	"context"
+
+	modelPatent "github.com/noydhiet/mandrill-scrapper/internal/repository/patent"
+)
+
 type repoPatentInterface interface {
-	StorePatentDb(data map[string]interface{}) error
+	StorePatent(ctx context.Context, data modelPatent.PatentDB) error
+	FindPatent(ctx context.Context) ([]modelPatent.PatentDB, error)
 }
 
 type repoLawsuitInterface interface {
