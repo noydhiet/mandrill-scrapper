@@ -85,6 +85,7 @@ func runWorkerScraping(cmd *cobra.Command, args []string) {
 	log.Info().Msg("worker started")
 	s.Start()
 
+	hdl.RunWorkerPatent()
 	// block the main thread
 	select {}
 

@@ -5,6 +5,8 @@ import (
 	"time"
 
 	pkgStorage "github.com/noydhiet/mandrill-scrapper/internal/pkg/storage"
+	"github.com/pkg/errors"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type PatentDB struct {
@@ -34,11 +36,10 @@ func (s *Repository) StorePatent(ctx context.Context, data PatentDB) error {
 	return nil
 }
 
-func (s *Repository) FindPatent(ctx context.Context) ([]PatentDB, error) {
+func (s *Repository) FindPatent(ctx context.Context, filter bson.M) ([]PatentDB, error) {
 	var data []PatentDB
-
-	if err := s.storage.Find(ctx, "patent", nil, &data); err != nil {
-		return nil, err
+	if err := s.storage.Find(ctx, "patent", filter, &data); err != nil {
+		return nil, errors.Wrap(err, "failed to find patent data")
 	}
 
 	return data, nil

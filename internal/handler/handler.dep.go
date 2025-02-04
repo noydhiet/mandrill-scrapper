@@ -4,11 +4,12 @@ import (
 	"context"
 
 	modelPatent "github.com/noydhiet/mandrill-scrapper/internal/repository/patent"
+	"go.mongodb.org/mongo-driver/v2/bson"
 )
 
 type repoPatentInterface interface {
 	StorePatent(ctx context.Context, data modelPatent.PatentDB) error
-	FindPatent(ctx context.Context) ([]modelPatent.PatentDB, error)
+	FindPatent(ctx context.Context, filter bson.M) ([]modelPatent.PatentDB, error)
 }
 
 type repoLawsuitInterface interface {
