@@ -1,7 +1,7 @@
 package scraper
 
 import (
-	"github.com/suryatresna/srg-radar-project/internal/scraper/patent"
+	"github.com/noydhiet/mandrill-scrapper/internal/scraper/patent"
 )
 
 // ├── scraper/

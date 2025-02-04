@@ -3,8 +3,7 @@ package patent
 import (
 	"time"
 
-	"github.com/pkg/errors"
-	pkgStorage "github.com/suryatresna/srg-radar-project/internal/pkg/storage"
+	pkgStorage "github.com/noydhiet/mandrill-scrapper/internal/pkg/storage"
 )
 
 type PatentDB struct {
@@ -27,25 +26,25 @@ func NewRepository(storage pkgStorage.Storage) *Repository {
 }
 
 func (s *Repository) StorePatentDb(data map[string]interface{}) error {
-	sql := `
-		INSERT INTO patents (
-			company_name,
-			patent_expiry_date,
-			patent_number,
-			title,
-			created_at
-		) VALUES (
-			:company_name,
-			:patent_expiry_date,
-			:patent_number,
-			:title,
-			:created_at 
-		)
-	`
+	// sql := `
+	// 	INSERT INTO patents (
+	// 		company_name,
+	// 		patent_expiry_date,
+	// 		patent_number,
+	// 		title,
+	// 		created_at
+	// 	) VALUES (
+	// 		:company_name,
+	// 		:patent_expiry_date,
+	// 		:patent_number,
+	// 		:title,
+	// 		:created_at
+	// 	)
+	// `
 
-	if err := s.storage.StoreDB(sql, data); err != nil {
-		return errors.Wrap(err, "error inserting data patent")
-	}
+	// if err := s.storage.StoreDB(sql, data); err != nil {
+	// 	return errors.Wrap(err, "error inserting data patent")
+	// }
 
 	return nil
 }

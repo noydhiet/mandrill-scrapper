@@ -11,12 +11,12 @@ type StorageDB struct {
 }
 
 func NewStorageDB(dsn string) (Storage, error) {
-	db, err := sqlx.Open("postgres", dsn)
-	if err != nil {
-		return nil, err
-	}
+	// db, err := sqlx.Open("postgres", dsn)
+	// if err != nil {
+	// 	return nil, err
+	// }
 	return &StorageDB{
-		dbconn: db,
+		dbconn: &sqlx.DB{},
 	}, nil
 }
 

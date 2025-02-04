@@ -1,7 +1,7 @@
 package recall
 
 import (
-	pkgStorage "github.com/suryatresna/srg-radar-project/internal/pkg/storage"
+	pkgStorage "github.com/noydhiet/mandrill-scrapper/internal/pkg/storage"
 )
 
 type RecallDB struct {

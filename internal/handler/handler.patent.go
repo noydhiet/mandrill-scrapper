@@ -3,8 +3,8 @@ package handler
 import (
 	"fmt"
 
+	"github.com/noydhiet/mandrill-scrapper/internal/scraper"
 	"github.com/rs/zerolog/log"
-	"github.com/suryatresna/srg-radar-project/internal/scraper"
 )
 
 func (h *Handler) RunWorkerPatent() {

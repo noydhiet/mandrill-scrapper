@@ -4,16 +4,16 @@ import (
 	"os"
 
 	"github.com/gocolly/colly"
+	"github.com/noydhiet/mandrill-scrapper/internal/handler"
+	pkgStorage "github.com/noydhiet/mandrill-scrapper/internal/pkg/storage"
+	repoLawsuit "github.com/noydhiet/mandrill-scrapper/internal/repository/lawsuit"
+	repoManufacture "github.com/noydhiet/mandrill-scrapper/internal/repository/manufacture"
+	repoPatent "github.com/noydhiet/mandrill-scrapper/internal/repository/patent"
+	repoRecall "github.com/noydhiet/mandrill-scrapper/internal/repository/recall"
+	repoRegistration "github.com/noydhiet/mandrill-scrapper/internal/repository/registration"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"github.com/suryatresna/srg-radar-project/internal/handler"
-	pkgStorage "github.com/suryatresna/srg-radar-project/internal/pkg/storage"
-	repoLawsuit "github.com/suryatresna/srg-radar-project/internal/repository/lawsuit"
-	repoManufacture "github.com/suryatresna/srg-radar-project/internal/repository/manufacture"
-	repoPatent "github.com/suryatresna/srg-radar-project/internal/repository/patent"
-	repoRecall "github.com/suryatresna/srg-radar-project/internal/repository/recall"
-	repoRegistration "github.com/suryatresna/srg-radar-project/internal/repository/registration"
 
 	"github.com/go-co-op/gocron/v2"
 )
@@ -45,6 +45,7 @@ func init() {
 }
 
 func runWorkerScraping(cmd *cobra.Command, args []string) {
+	log.Info().Msg("worker initiated")
 	collector := colly.NewCollector()
 	storage, err := pkgStorage.NewStorageDB("")
 	if err != nil {
@@ -78,5 +79,10 @@ func runWorkerScraping(cmd *cobra.Command, args []string) {
 
 	log.Info().Msgf("worker command called patent %v", jPatent.ID())
 
+	log.Info().Msg("worker started")
 	s.Start()
+
+	// block the main thread
+	select {}
+
 }

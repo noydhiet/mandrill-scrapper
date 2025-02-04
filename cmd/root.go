@@ -6,9 +6,9 @@ package cmd
 import (
 	"os"
 
+	cmdApi "github.com/noydhiet/mandrill-scrapper/cmd/api"
+	cmdWorker "github.com/noydhiet/mandrill-scrapper/cmd/worker"
 	"github.com/spf13/cobra"
-	cmdApi "github.com/suryatresna/srg-radar-project/cmd/api"
-	cmdWorker "github.com/suryatresna/srg-radar-project/cmd/worker"
 )
 
 // rootCmd represents the base command when called without any subcommands
