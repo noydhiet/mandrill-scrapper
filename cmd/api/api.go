@@ -69,5 +69,5 @@ func runSearchAPI(cmd *cobra.Command, args []string) {
 	http.HandleFunc("/v1/search", hdl.HandleGetPatentData)
 
 	log.Info().Msg("api server started at :8080")
-	http.ListenAndServe(":8080", nil)
+	_ = http.ListenAndServe(":8080", nil)
 }

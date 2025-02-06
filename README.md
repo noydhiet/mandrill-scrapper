@@ -36,26 +36,42 @@ go mod download
 
 ## Usage
 
-Run the application in local environment:
+Run application using docker
 ```bash
-# Run the application
-go run main.go api
+docker compose up
+```
+this command will run 3 services:
+1. API service (port 8080)
+2. Scraper service (port 8081)
+3. Database service (MongoDB)
+
+### API Service
+
+| Endpoint | Method | Description |
+| -------- | ------ | ----------- |
+| /v1/search | GET | List all resources from patent |
+
+How to get all resources:
+```bash
+curl -X GET http://localhost:8080/v1/search
 ```
 
-Test the application:
-```bash
-curl http://localhost:8080/v1/search?query=paracetamol
-```
+### Scraper Service
 
-Run Worker in local environment
-```bash
-go run main.go worker
-```
-
-Support scraping worker
+Scraping job will run automatically based on the following schedule:
 | Module | Frequency |
 | ------ | --------- |
-| Patent | Every day |
+| Patent | Every day at 00.00 (Server Time) |
+
+Also, you can trigger the scraping job manually by calling the following endpoint:
+| Endpoint | Method | Description |
+| -------- | ------ | ----------- |
+| /v1/scraping/patent | POST | trigger job agent scraping patent |
+
+How to trigger the scraping job:
+```bash
+curl -X POST http://localhost:8081/v1/scraping/patent
+```
 
 
 ## Scraping Sources

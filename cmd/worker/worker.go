@@ -1,6 +1,7 @@
 package worker
 
 import (
+	"net/http"
 	"os"
 
 	"github.com/gocolly/colly"
@@ -85,8 +86,24 @@ func runWorkerScraping(cmd *cobra.Command, args []string) {
 	log.Info().Msg("worker started")
 	s.Start()
 
-	hdl.RunWorkerPatent()
-	// block the main thread
-	select {}
+	http.HandleFunc("/v1/scraping/patent", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			w.WriteHeader(http.StatusMethodNotAllowed)
+			w.Header().Set("Content-Type", "application/json")
+			_, _ = w.Write([]byte(`{"status": "error", "message": "method not allowed"}`))
+		}
+
+		if err := jPatent.RunNow(); err != nil {
+			log.Error().Err(err).Msg("failed to run job")
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+		_, _ = w.Write([]byte(`{"status": "ok", "module": "patent"}`))
+	})
+
+	log.Info().Msg("worker server started at :8081")
+	_ = http.ListenAndServe(":8081", nil)
 
 }

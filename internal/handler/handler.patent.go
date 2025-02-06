@@ -23,19 +23,19 @@ func (h *Handler) RunWorkerPatent() {
 			CreatedAt: time.Now(),
 		}
 
-		if val, ok := data["Company Name"]; ok {
+		if val, ok := data["company_name"]; ok {
 			patentData.CompanyName = val.(string)
 		}
 
-		if val, ok := data["Patent Expiry"]; ok {
+		if val, ok := data["patent_expiry"]; ok {
 			patentData.PatentExpiryDate = val.(string)
 		}
 
-		if val, ok := data["Patent Number"]; ok {
+		if val, ok := data["patent_number"]; ok {
 			patentData.PatentNumber = val.(string)
 		}
 
-		if val, ok := data["Patent Title"]; ok {
+		if val, ok := data["patent_title"]; ok {
 			patentData.Title = val.(string)
 		}
 
